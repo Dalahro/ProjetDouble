@@ -6,45 +6,11 @@ import java.util.ArrayList;
 
 public class Milieu {
 
-	double[] Kpos = { 0, 0 };
-	double[] Kv = { 0, 0 };
-	double[] Ka = { 0, 0 };
 	Forme forme = null;
-	private ArrayList<Modele> liste_modele = new ArrayList<Modele>();
-
-	public Milieu(Forme forme, double[] Kpos, double[] Kv, double[] Ka) {
-		this.forme = forme;
-		this.Kpos = Kpos;
-		this.Kv = Kv;
-		this.Ka = Ka;
-	}
+	public ArrayList<Modele> liste_modele = new ArrayList<Modele>();
 
 	public Milieu(Forme forme) {
 		this.forme = forme;
-	}
-
-	public double[] getKpos() {
-		return Kpos;
-	}
-
-	public void setKpos(double[] kpos) {
-		Kpos = kpos;
-	}
-
-	public double[] getKv() {
-		return Kv;
-	}
-
-	public void setKv(double[] kv) {
-		Kv = kv;
-	}
-
-	public double[] getKa() {
-		return Ka;
-	}
-
-	public void setKa(double[] ka) {
-		Ka = ka;
 	}
 
 	public Forme getForme() {
@@ -69,6 +35,14 @@ public class Milieu {
 
 	public void setColor(Color color) {
 		forme.setColor(color);
+	}
+
+	public ArrayList<Modele> getListe_modele() {
+		return liste_modele;
+	}
+
+	public void setListe_modele(ArrayList<Modele> liste_modele) {
+		this.liste_modele = liste_modele;
 	}
 
 }

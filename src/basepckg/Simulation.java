@@ -124,53 +124,22 @@ public abstract class Simulation extends JFrame {
 	public void actualiser(Particule p1) {
 
 		// Mise à jour accélération
-		Maths.raz(Kpos);
-		Maths.raz(Kv);
-		Maths.raz(Ka);
+		p1.resetA();
 
-		// Somme des forces
-
-		// Forces des formes
+		// Milieu où est la particule + Action des modèles
+		ArrayList<Particule> caseDedans = getListCaseIn(p1);
 		for (Milieu m : liste_milieu) {
 			if (m.inForme(p1)) {
-				Kpos = Maths.addVect(Kpos, m.getKpos());
-				Kv = Maths.addVect(Kv, m.getKv());
-				Ka = Maths.addVect(Ka, m.getKa());
-			}
-		}
-
-		// Forces entre particules
-		double[][] K = interraction(p1, getListCaseIn(p1));
-
-		Kpos = Maths.addVect(Kpos, K[0]);
-		Kv = Maths.addVect(Kv, K[1]);
-		Ka = Maths.addVect(Ka, K[2]);
-
-		p1.update_a(Kpos, Kv, Ka);
-
-		// Mise à jour vitesse et position
-		p1.update_v(h);
-		
-		p1.hitAnyParticule(getListCaseIn(p1));
-
-
-		// Collisions
-		p1.update_pos(h);
-	}
-
-	public abstract double[][] interraction2P(Particule p1, Particule p2);
-
-	public double[][] interraction(Particule p1, ArrayList<Particule> liste_particule) {
-		double[][] d = { { 0, 0 }, { 0, 0 }, { 0, 0 } };
-		for (Particule p : liste_particule) {
-			double[][] d1 = interraction2P(p1, p);
-			for (int i = 0; i < d.length; i++) {
-				for (int j = 0; j < d[0].length; j++) {
-					d[i][j] += d1[i][j];
+				for (Modele mod : m.getListe_modele()) {
+					mod.actionP(p1);
+					mod.interaction(p1, caseDedans);
 				}
 			}
 		}
-		return d;
+
+		// Mise à jour vitesse et position
+		p1.update_v(h);
+		p1.update_pos(h);
 	}
 
 	public ArrayList<Particule> getListe_particule() {

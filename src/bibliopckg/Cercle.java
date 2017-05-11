@@ -1,6 +1,9 @@
-package basepckg;
+package bibliopckg;
 
 import java.awt.Graphics;
+
+import basepckg.Forme;
+import basepckg.Particule;
 
 public class Cercle extends Forme {
 

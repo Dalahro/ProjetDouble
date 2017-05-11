@@ -1,11 +1,9 @@
 package basepckg;
 
 import java.awt.Color;
-import java.util.ArrayList;
 
 public class Particule {
 
-	private static final double INFINITY = Double.POSITIVE_INFINITY;
 	private double[] pos = new double[2];
 	private double[] v = new double[2];
 	private double[] a = new double[2];
@@ -23,8 +21,8 @@ public class Particule {
 	public Particule() {
 		pos[0] = radius + Math.random() * (Simulation.WIDTH - 2 * radius);
 		pos[1] = radius + Math.random() * (Simulation.HEIGHT - 2 * radius);
-		v[0] = 0;// Math.random() * 10 - 5;
-		v[1] = 0; // Math.random() * 10 - 5;
+		v[0] = Math.random() * 10 - 5;
+		v[1] =  Math.random() * 10 - 5;
 		radius = 2; // + (int) (Math.random() * 1);
 		m = 1 + (int) (Math.random() * 100);
 	}
@@ -41,12 +39,7 @@ public class Particule {
 		v[0] += h * a[0];
 		v[1] += h * a[1];
 	}
-
-	public void update_a(double[] Kpos, double[] Kv, double[] Ka) {
-		a[0] = (Ka[0] + Kv[0] * v[0] + Kpos[0] * pos[0]) / this.m;
-		a[1] = (Ka[1] + Kv[1] * v[1] + Kpos[1] * pos[1]) / this.m;
-	}
-
+	
 	public double distance(Particule p2) {
 		return Maths.norme(Maths.subVect(this.getPos(), p2.getPos()));
 	}
@@ -82,97 +75,7 @@ public class Particule {
 			pos[1] = Simulation.WIDTH - radius;
 		}
 	}
-
-	public void hit(Particule p2) {
-		double[] pos1 = this.getPos();
-		double[] pos2 = p2.getPos();
-		double[] v1 = this.getV();
-		double[] v2 = p2.getV();
-		int m1 = this.getM();
-		int m2 = p2.getM();
-
-		double[] vect_norm = Maths.normalize(Maths.subVect(pos2, pos1));
-		double[] vect_tan = Maths.vectTan(vect_norm);
-
-		double v1n = Maths.prodScalaire(vect_norm, v1);
-		double v1t = Maths.prodScalaire(vect_tan, v1);
-		double v2n = Maths.prodScalaire(vect_norm, v2);
-		double v2t = Maths.prodScalaire(vect_tan, v2);
-
-		double v1t_ps = v1t;
-		double v2t_ps = v2t;
-
-		double v1n_ps = (v1n * (m1 - m2) + 2 * m2 * v2n) / (m1 + m2);
-		double v2n_ps = (v2n * (m2 - m1) + 2 * m1 * v1n) / (m1 + m2);
-
-		double[] v1n_p = Maths.multScalaire(vect_norm, v1n_ps);
-		double[] v1t_p = Maths.multScalaire(vect_tan, v1t_ps);
-		double[] v2n_p = Maths.multScalaire(vect_norm, v2n_ps);
-		double[] v2t_p = Maths.multScalaire(vect_tan, v2t_ps);
-
-		double[] v1_p = Maths.addVect(v1n_p, v1t_p);
-		double[] v2_p = Maths.addVect(v2n_p, v2t_p);
-
-		// Collision inélastique mais marche pas trop
-		double vx_cm = (m1 * v1[0] + m2 * v2[0]) / (m1 + m2);
-		double vy_cm = (m1 * v1[1] + m2 * v2[1]) / (m1 + m2);
-
-		v1_p[0] = (v1_p[0] - vx_cm) * Simulation.R + vx_cm;
-		v1_p[1] = (v1_p[1] - vy_cm) * Simulation.R + vy_cm;
-		v2_p[0] = (v2_p[0] - vx_cm) * Simulation.R + vx_cm;
-		v2_p[1] = (v2_p[1] - vy_cm) * Simulation.R + vy_cm;
-
-		this.setV(v1_p);
-		p2.setV(v2_p);
-	}
-
-	public double timeToHit(Particule p2) {
-		double dx = p2.getPos()[0] - this.getPos()[0];
-		double dy = p2.getPos()[1] - this.getPos()[1];
-		double dvx = p2.getV()[0] - this.getV()[0];
-		double dvy = p2.getV()[1] - this.getV()[1];
-		double dvdr = dx * dvx + dy * dvy;
-		if (dvdr > 0) {
-			return INFINITY;
-		}
-		double dvdv = dvx * dvx + dvy * dvy;
-		double drdr = dx * dx + dy * dy;
-		double sigma = this.radius + p2.radius;
-		double d = (dvdr * dvdr) - dvdv * (drdr - sigma * sigma);
-		/*
-		 * if (drdr < sigma * sigma) { System.out.println(
-		 * "overlapping particles" + drdr); }
-		 */
-		if (d < 0) {
-			return INFINITY;
-		}
-		return -(dvdr + Math.sqrt(d)) / dvdv;
-	}
-
-	public void hitAnyParticule(ArrayList<Particule> liste_p) {
-		Particule p_plusproche = null;
-		double t_min = INFINITY;
-		double t = 0;
-		for (Particule p : liste_p) {
-			if (p != this) {
-				t = timeToHit(p);
-				// System.out.println(t);
-				if (t < t_min) {
-					t_min = t;
-					p_plusproche = p;
-				}
-
-			}
-		}
-		if (t_min < Simulation.h) {
-			update_pos(t_min);
-			hit(p_plusproche);
-			update_pos(Simulation.h - t_min);
-		} else {
-			update_pos(Simulation.h);
-		}
-	}
-
+	
 	public int getM() {
 		return m;
 	}
@@ -210,6 +113,11 @@ public class Particule {
 	public void setA(double[] a) {
 		this.a = a;
 	}
+	
+	public void setA(double ax, double ay) {
+		this.a[0] = ax;
+		this.a[1] = ay;
+	}
 
 	public double getRadius() {
 		return radius;
@@ -241,5 +149,10 @@ public class Particule {
 
 	public void setCasey(int casey) {
 		this.casey = casey;
+	}
+
+	public void resetA() {
+		a[0] = 0;
+		a[1] = 0;		
 	}
 }

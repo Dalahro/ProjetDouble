@@ -1,7 +1,11 @@
-package basepckg;
+package bibliopckg;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
+
+import basepckg.Forme;
+import basepckg.Maths;
+import basepckg.Particule;
 
 public class Polygone extends Forme {
 
