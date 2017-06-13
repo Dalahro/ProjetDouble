@@ -13,7 +13,7 @@ public class Newton extends Modele {
 		super(forme);
 	}
 
-	double G = 6.67e-1;
+	double G = 6.67e-4;
 
 	public void interaction(Particule p1, HashSet<Particule> liste_particule, ArrayList<Forme> liste_forme) {
 		double Fx = 0;

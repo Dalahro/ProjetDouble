@@ -12,9 +12,9 @@ public class Affichage extends JPanel {
 	private ArrayList<Milieu> liste_milieu;
 	private HashSet<Particule> liste_particule;
 
-	public Affichage(ArrayList<Milieu> liste_milieu, HashSet<Particule> liste_particule2) {
+	public Affichage(ArrayList<Milieu> liste_milieu, HashSet<Particule> liste_particule) {
 		this.liste_milieu = liste_milieu;
-		this.liste_particule = liste_particule2;
+		this.liste_particule = liste_particule;
 	}
 
 	public void paintComponent(Graphics g) {

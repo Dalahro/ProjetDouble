@@ -13,7 +13,7 @@ public abstract class Simulation extends JFrame {
 	protected ArrayList<Generateur> liste_generateur;
 	protected ArrayList<Forme> liste_forme;
 	public static double h = 0.01;
-	public static double PAS = 0.01;
+	public static double PAS = 1;
 	public static int HEIGHT = 500;
 	public static int WIDTH = 500;
 	protected Case[][] grille_particule = new Case[(int) Math.ceil(1 / PAS)][(int) Math.ceil(1 / PAS)];
@@ -116,12 +116,15 @@ public abstract class Simulation extends JFrame {
 				int casex = (int) (pos[0] / (WIDTH * PAS));
 				int casey = (int) (pos[1] / (HEIGHT * PAS));
 
-				grille_particule[p.getCasex()][p.getCasey()].getListe_particule().remove(p);
+				if (casex != p.getCasex() && casey != p.getCasey()) {
 
-				p.setCasex(casex);
-				p.setCasey(casey);
+					grille_particule[p.getCasex()][p.getCasey()].getListe_particule().remove(p);
 
-				grille_particule[p.getCasex()][p.getCasey()].getListe_particule().add(p);
+					p.setCasex(casex);
+					p.setCasey(casey);
+
+					grille_particule[p.getCasex()][p.getCasey()].getListe_particule().add(p);
+				}
 			}
 		}
 	}
@@ -131,7 +134,7 @@ public abstract class Simulation extends JFrame {
 		// Début de la simulation
 		while (true) {
 			aff.repaint();
-			long t = System.currentTimeMillis();
+			// long t = System.currentTimeMillis();
 			// double em=0;
 
 			@SuppressWarnings("unchecked")
@@ -147,7 +150,7 @@ public abstract class Simulation extends JFrame {
 			}
 
 			updateCaseIn();
-			System.out.println(System.currentTimeMillis() - t);
+			// System.out.println(System.currentTimeMillis() - t);
 			// System.out.println(em);
 			try {
 				Thread.sleep(1);
