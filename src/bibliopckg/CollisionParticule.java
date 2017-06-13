@@ -2,6 +2,7 @@ package bibliopckg;
 
 import java.util.ArrayList;
 
+import basepckg.Forme;
 import basepckg.Maths;
 import basepckg.Modele;
 import basepckg.Particule;
@@ -12,16 +13,16 @@ public class CollisionParticule extends Modele {
 	private double R = 1;
 	private static final double INFINITY = Double.POSITIVE_INFINITY;
 
-	public CollisionParticule(double R){
-		super();
+	public CollisionParticule(double R, Forme forme){
+		super(forme);
 		this.R = R;
 	}
-	public void interaction(Particule p1, ArrayList<Particule> liste_particule) {
+	public void interaction(Particule p1, ArrayList<Particule> liste_particule, ArrayList<Forme> liste_forme) {
 		Particule p_plusproche = null;
 		double t_min = INFINITY;
 		double t = 0;
 		for (Particule p2 : liste_particule) {
-			if (p2 != p1) {
+			if (p2 != p1 && forme.inForme(p2.getPos())) {
 				t = timeToHit(p1, p2);
 				// System.out.println(t);
 				if (t < t_min) {
@@ -37,17 +38,13 @@ public class CollisionParticule extends Modele {
 		}
 	}
 
-	public void interaction2P(Particule p1, Particule p2) {
-
-	}
-
 	public void hit(Particule p1, Particule p2) {
 		double[] pos1 = p1.getPos();
 		double[] pos2 = p2.getPos();
 		double[] v1 = p1.getV();
 		double[] v2 = p2.getV();
-		int m1 = p1.getM();
-		int m2 = p2.getM();
+		double m1 = p1.getAttributs().get("masse");
+		double m2 = p2.getAttributs().get("masse");
 
 		double[] vect_norm = Maths.normalize(Maths.subVect(pos2, pos1));
 		double[] vect_tan = Maths.vectTan(vect_norm);

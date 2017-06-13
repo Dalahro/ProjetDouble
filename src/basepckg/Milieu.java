@@ -21,8 +21,8 @@ public class Milieu {
 		this.forme = forme;
 	}
 
-	public boolean inForme(Particule p) {
-		return forme.inForme(p);
+	public boolean inMilieu(double[] pos) {
+		return forme.inForme(pos);
 	}
 
 	public void draw(Graphics g) {

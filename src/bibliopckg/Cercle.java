@@ -3,6 +3,7 @@ package bibliopckg;
 import java.awt.Graphics;
 
 import basepckg.Forme;
+import basepckg.Pair;
 import basepckg.Particule;
 
 public class Cercle extends Forme {
@@ -17,8 +18,7 @@ public class Cercle extends Forme {
 		this.y = y;
 	}
 
-	public boolean inForme(Particule p) {
-		double[] pos = p.getPos();
+	public boolean inForme(double[] pos) {
 		double d = Math.sqrt(Math.pow((x - pos[0]), 2) + Math.pow((y - pos[1]), 2));
 		if (d <= r) {
 			return true;
@@ -33,6 +33,16 @@ public class Cercle extends Forme {
 			r1 = (int) r;
 		}
 		g.fillOval((int) x - r1, (int) y -r1, r1 * 2, r1 * 2);
+	}
+
+	public Pair<Double, Object> hitBorder(Particule p) {
+		return null;		
+	}
+
+	@Override
+	public double[] getEnveloppe() {
+		double[] enveloppe = { x - r, y-r, r*2,r*2};
+		return enveloppe;
 	}
 
 }

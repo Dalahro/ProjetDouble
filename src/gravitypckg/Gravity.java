@@ -4,10 +4,11 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import basepckg.Milieu;
-import basepckg.Particule;
 import basepckg.Simulation;
 import bibliopckg.Cercle;
 import bibliopckg.CollisionParticule;
+import bibliopckg.GenerateurUniform;
+import bibliopckg.ModeleDisparition;
 import bibliopckg.Polygone;
 
 public class Gravity extends Simulation {
@@ -28,10 +29,10 @@ public class Gravity extends Simulation {
 		points0.add(d01);
 		points0.add(d02);
 		points0.add(d03);
-		m0 = new Milieu(new Polygone(points0));
+		Milieu m0 = new Milieu(new Polygone(points0));
 		m0.setColor(Color.gray);
-		m0.liste_modele.add(new CollisionParticule(0));
-		m0.liste_modele.add(new Newton());
+		m0.liste_modele.add(new CollisionParticule(0.1, m0.getForme()));
+		m0.liste_modele.add(new ModeleDisparition(m0.getForme(), this));
 		liste_milieu.add(m0);
 	}
 
@@ -46,24 +47,28 @@ public class Gravity extends Simulation {
 		points.add(d01);
 		points.add(d02);
 		points.add(d03);
-		double[] Kpos0 = { 0, 0 };
-		double[] Kv0 = { 0, 0 };
-		double[] Ka0 = { 0, 0 };
-		Milieu m = new Milieu(new Polygone(points), Kpos0, Kv0, Ka0);
+		Polygone poly = new Polygone(points);
+		Milieu m = new Milieu(poly);
 		m.setColor(Color.black);
+		m.liste_modele.add(new CollisionForme(m.getForme()));
+		m.liste_modele.add(new ModeleDisparition(m.getForme(), this));
 		liste_milieu.add(m);*/
+		
 
-		Milieu m1 = new Milieu(new Cercle(100, 250, 250));
-		m1.setColor(Color.red);
+		Milieu m1 = new Milieu(new Cercle(200, 250, 250));
+		m1.liste_modele.add(new Newton(m1.getForme()));
+		m1.setColor(new Color(0, 0, 255, 50));
 		liste_milieu.add(m1);
 
+		FactoryPlanete facto = new FactoryPlanete();
+		liste_generateur.add(new GenerateurUniform(m1.getForme(), facto, 500, 20));		
+
+		m1.liste_modele.add(new ModeleDisparition(m1.getForme(), this));
 	}
 
 	@Override
-	public void createParticule() {
-		for (int i = 0; i < 10; i++) {
-			ajouterParticule(new Particule());
-		}
+	public void createParticule() {	
+		ajouterParticule(new Planete(250, 250 , 0, 0, 10000000));
 	}
 
 }

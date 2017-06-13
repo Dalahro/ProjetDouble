@@ -1,6 +1,8 @@
 package basepckg;
 
 import java.awt.Color;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Particule {
 
@@ -10,27 +12,15 @@ public class Particule {
 	private int casex, casey;
 	private double radius = 2;
 	private Color color = Color.orange;
-	private int m;
+	
+	protected Map<String, Double> attributs = new HashMap<String, Double>();
 
-	public Particule(double posx, double posy, double vx, double vy, int m) {
-		this.m = m;
+	public Particule(double posx, double posy, double vx, double vy) {
 		this.setPos(posx, posy);
 		this.setV(vx, vy);
 	}
 
-	public Particule() {
-		pos[0] = radius + Math.random() * (Simulation.WIDTH - 2 * radius);
-		pos[1] = radius + Math.random() * (Simulation.HEIGHT - 2 * radius);
-		v[0] = Math.random() * 10 - 5;
-		v[1] =  Math.random() * 10 - 5;
-		radius = 2; // + (int) (Math.random() * 1);
-		m = 1 + (int) (Math.random() * 100);
-	}
-
 	public void update_pos(double h) {
-		hitWallHorizontal(h);
-		hitWallVertical(h);
-
 		pos[0] += h * v[0];
 		pos[1] += h * v[1];
 	}
@@ -39,7 +29,7 @@ public class Particule {
 		v[0] += h * a[0];
 		v[1] += h * a[1];
 	}
-	
+
 	public double distance(Particule p2) {
 		return Maths.norme(Maths.subVect(this.getPos(), p2.getPos()));
 	}
@@ -76,10 +66,6 @@ public class Particule {
 		}
 	}
 	
-	public int getM() {
-		return m;
-	}
-
 	public double[] getPos() {
 		return pos;
 	}
@@ -113,7 +99,7 @@ public class Particule {
 	public void setA(double[] a) {
 		this.a = a;
 	}
-	
+
 	public void setA(double ax, double ay) {
 		this.a[0] = ax;
 		this.a[1] = ay;
@@ -153,6 +139,14 @@ public class Particule {
 
 	public void resetA() {
 		a[0] = 0;
-		a[1] = 0;		
+		a[1] = 0;
+	}
+
+	public Map<String, Double> getAttributs() {
+		return attributs;
+	}
+
+	public void setAttributs(Map<String, Double> attributs) {
+		this.attributs = attributs;
 	}
 }

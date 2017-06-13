@@ -5,13 +5,11 @@ import java.awt.Graphics;
 
 public abstract class Forme {
 
-	private Color color = Color.BLACK;
-
-	public Forme(){
-		
-	}
+	protected Color color = Color.BLACK;
 	
-	public abstract boolean inForme(Particule p); 
+	public abstract boolean inForme(double[] pos); 
+	
+	public abstract Pair<Double, Object> hitBorder(Particule p); 
 
 	public Color getColor() {
 		return color;
@@ -22,4 +20,6 @@ public abstract class Forme {
 	}
 
 	public abstract void draw(Graphics g);
+	
+	public abstract double[] getEnveloppe();	
 }

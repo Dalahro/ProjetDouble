@@ -1,5 +1,6 @@
 package basepckg;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
@@ -16,12 +17,16 @@ public class Affichage extends JPanel {
 	}
 
 	public void paintComponent(Graphics g) {
+		g.setColor(Color.white);
+		g.fillRect(0, 0, Simulation.WIDTH, Simulation.HEIGHT);
 		for (Milieu m : liste_milieu) {
 			g.setColor(m.getColor());
 			m.draw(g);
 		}
 
-		for (Particule p : liste_particule) {
+		@SuppressWarnings("unchecked")
+		ArrayList<Particule> copy_part = (ArrayList<Particule>) liste_particule.clone();
+		for (Particule p : copy_part) {
 			g.setColor(p.getColor());
 			int r = 1;
 			if (p.getRadius() > 1) {
@@ -30,21 +35,4 @@ public class Affichage extends JPanel {
 			g.fillOval((int) p.getPos()[0] - r, (int) p.getPos()[1] - r, r * 2, r * 2);
 		}
 	}
-
-	public ArrayList<Milieu> getListe_milieu() {
-		return liste_milieu;
-	}
-
-	public void setListe_milieu(ArrayList<Milieu> liste_milieu) {
-		this.liste_milieu = liste_milieu;
-	}
-
-	public ArrayList<Particule> getListe_particule() {
-		return liste_particule;
-	}
-
-	public void setListe_particule(ArrayList<Particule> liste_particule) {
-		this.liste_particule = liste_particule;
-	}
-
 }
