@@ -1,6 +1,7 @@
 package bibliopckg;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import basepckg.Forme;
 import basepckg.Modele;
@@ -17,7 +18,7 @@ public class ModeleDisparition extends Modele{
 	}
 
 	@Override
-	public void interaction(Particule p1, ArrayList<Particule> liste_particule, ArrayList<Forme> liste_forme) {
+	public void interaction(Particule p1, HashSet<Particule> liste_particule, ArrayList<Forme> liste_forme) {
 		// TODO Auto-generated method stub
 		
 	}

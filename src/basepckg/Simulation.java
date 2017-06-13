@@ -1,13 +1,14 @@
 package basepckg;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import javax.swing.JFrame;
 
 public abstract class Simulation extends JFrame {
 
 	protected Affichage aff;
-	protected ArrayList<Particule> liste_particule;
+	protected HashSet<Particule> liste_particule;
 	protected ArrayList<Milieu> liste_milieu;
 	protected ArrayList<Generateur> liste_generateur;
 	protected ArrayList<Forme> liste_forme;
@@ -19,7 +20,7 @@ public abstract class Simulation extends JFrame {
 
 	public Simulation() {
 		// Initialisation
-		liste_particule = new ArrayList<Particule>();
+		liste_particule = new HashSet<Particule>();
 		liste_milieu = new ArrayList<Milieu>();
 		liste_forme = new ArrayList<Forme>();
 		liste_generateur = new ArrayList<Generateur>();
@@ -70,8 +71,8 @@ public abstract class Simulation extends JFrame {
 		liste_particule.remove(p);
 	}
 
-	public ArrayList<Particule> getListCaseIn(Particule p) {
-		ArrayList<Particule> part = grille_particule[p.getCasex()][p.getCasey()].getListe_particule();
+	public HashSet<Particule> getListCaseIn(Particule p) {
+		HashSet<Particule> part = grille_particule[p.getCasex()][p.getCasey()].getListe_particule();
 		return part;
 	}
 
@@ -83,7 +84,7 @@ public abstract class Simulation extends JFrame {
 				int casey = (int) (pos[1] / (HEIGHT * PAS));
 
 				grille_particule[p.getCasex()][p.getCasey()].getListe_particule().remove(p);
-//hashset
+ 
 				p.setCasex(casex);
 				p.setCasey(casey);
 
@@ -97,11 +98,11 @@ public abstract class Simulation extends JFrame {
 		// Début de la simulation
 		while (true) {
 			aff.repaint();
-			// long t = System.currentTimeMillis();
+			long t = System.currentTimeMillis();
 			// double em=0;
 
 			@SuppressWarnings("unchecked")
-			ArrayList<Particule> copy_part = (ArrayList<Particule>) liste_particule.clone();
+			HashSet<Particule> copy_part = (HashSet<Particule>) liste_particule.clone();
 			for (Particule p1 : copy_part) {
 				actualiser(p1);
 				// em += 0.5 * p1.getM() * Math.pow(Maths.norme(p1.getV()), 2);
@@ -113,7 +114,7 @@ public abstract class Simulation extends JFrame {
 			}
 
 			updateCaseIn();
-			// System.out.println(System.currentTimeMillis() - t);
+			System.out.println(System.currentTimeMillis() - t);
 			// System.out.println(em);
 			try {
 				Thread.sleep(1);
@@ -131,7 +132,7 @@ public abstract class Simulation extends JFrame {
 		// Milieu où est la particule + Action des modèles que si la particule
 		// est dans la fenetre
 		if (p1.getPos()[0] > 0 && p1.getPos()[0] < WIDTH && p1.getPos()[1] > 0 && p1.getPos()[1] < HEIGHT) {
-			ArrayList<Particule> caseDedans = getListCaseIn(p1);
+			HashSet<Particule> caseDedans = getListCaseIn(p1);
 			for (Milieu m : liste_milieu) {
 				if (m.inMilieu(p1.getPos())) {
 					for (Modele mod : m.getListe_modele()) {
@@ -146,11 +147,11 @@ public abstract class Simulation extends JFrame {
 		p1.update_pos(h);
 	}
 
-	public ArrayList<Particule> getListe_particule() {
+	public HashSet<Particule> getListe_particule() {
 		return liste_particule;
 	}
 
-	public void setListe_particule(ArrayList<Particule> liste_particule) {
+	public void setListe_particule(HashSet<Particule> liste_particule) {
 		this.liste_particule = liste_particule;
 	}
 

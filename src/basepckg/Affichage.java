@@ -3,17 +3,18 @@ package basepckg;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import javax.swing.JPanel;
 
 public class Affichage extends JPanel {
 
 	private ArrayList<Milieu> liste_milieu;
-	private ArrayList<Particule> liste_particule;
+	private HashSet<Particule> liste_particule;
 
-	public Affichage(ArrayList<Milieu> liste_milieu, ArrayList<Particule> liste_particule) {
+	public Affichage(ArrayList<Milieu> liste_milieu, HashSet<Particule> liste_particule2) {
 		this.liste_milieu = liste_milieu;
-		this.liste_particule = liste_particule;
+		this.liste_particule = liste_particule2;
 	}
 
 	public void paintComponent(Graphics g) {
@@ -25,7 +26,7 @@ public class Affichage extends JPanel {
 		}
 
 		@SuppressWarnings("unchecked")
-		ArrayList<Particule> copy_part = (ArrayList<Particule>) liste_particule.clone();
+		HashSet<Particule> copy_part = (HashSet<Particule>) liste_particule.clone();
 		for (Particule p : copy_part) {
 			g.setColor(p.getColor());
 			int r = 1;

@@ -1,6 +1,7 @@
 package gravitypckg;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import basepckg.Forme;
 import basepckg.Modele;
@@ -14,7 +15,7 @@ public class Newton extends Modele {
 
 	double G = 6.67e-4;
 
-	public void interaction(Particule p1, ArrayList<Particule> liste_particule, ArrayList<Forme> liste_forme) {
+	public void interaction(Particule p1, HashSet<Particule> liste_particule, ArrayList<Forme> liste_forme) {
 		double Fx = 0;
 		double Fy = 0;
 		for (Particule p2 : liste_particule) {

@@ -19,10 +19,11 @@ public abstract class Generateur {
 
 	public void action(int time_boucle, Simulation simulation) {
 		t += time_boucle;
-		if (T == 0) {
+		if (T == 0 && n != N) {
 			for (int i = 0; i < N; i++) {
 				generate(simulation);
 			}
+			n = N;
 		} else if (t > T && n < N) {
 			generate(simulation);
 			t -= T;

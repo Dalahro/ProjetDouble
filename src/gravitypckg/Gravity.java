@@ -61,7 +61,7 @@ public class Gravity extends Simulation {
 		liste_milieu.add(m1);
 
 		FactoryPlanete facto = new FactoryPlanete();
-		liste_generateur.add(new GenerateurUniform(m1.getForme(), facto, 500, 20));		
+		liste_generateur.add(new GenerateurUniform(m1.getForme(), facto, 0, 2000));		
 
 		m1.liste_modele.add(new ModeleDisparition(m1.getForme(), this));
 	}

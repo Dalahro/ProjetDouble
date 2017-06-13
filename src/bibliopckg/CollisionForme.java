@@ -1,6 +1,7 @@
 package bibliopckg;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import basepckg.Forme;
 import basepckg.Maths;
@@ -15,7 +16,7 @@ public class CollisionForme extends Modele {
 		super(forme);
 	}
 
-	public void interaction(Particule p1, ArrayList<Particule> liste_particule, ArrayList<Forme> liste_forme) {
+	public void interaction(Particule p1, HashSet<Particule> liste_particule, ArrayList<Forme> liste_forme) {
 		double[] vit = p1.getV();
 		for (Forme f : liste_forme) {
 			Pair<Double, Object> pair = f.hitBorder(p1); // si defini collision sur la forme

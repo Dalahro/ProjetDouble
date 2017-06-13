@@ -1,16 +1,16 @@
 package basepckg;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Case {
 
-	private ArrayList<Particule> liste_particule = new ArrayList<Particule>();
+	private HashSet<Particule> liste_particule = new HashSet<Particule>();
 
-	public ArrayList<Particule> getListe_particule() {
+	public HashSet<Particule> getListe_particule() {
 		return liste_particule;
 	}
 
-	public void setListe_particule(ArrayList<Particule> liste_particule) {
+	public void setListe_particule(HashSet<Particule> liste_particule) {
 		this.liste_particule = liste_particule;
 	}
 

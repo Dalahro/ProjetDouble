@@ -1,6 +1,7 @@
 package bibliopckg;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import basepckg.Forme;
 import basepckg.Maths;
@@ -17,7 +18,7 @@ public class CollisionParticule extends Modele {
 		super(forme);
 		this.R = R;
 	}
-	public void interaction(Particule p1, ArrayList<Particule> liste_particule, ArrayList<Forme> liste_forme) {
+	public void interaction(Particule p1, HashSet<Particule> liste_particule, ArrayList<Forme> liste_forme) {
 		Particule p_plusproche = null;
 		double t_min = INFINITY;
 		double t = 0;
