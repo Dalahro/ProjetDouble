@@ -1,7 +1,7 @@
 package basepckg;
 
-import babypckg.Babyfoot;
-import champelecpckg.ChampElec;
+import babypckg.*;
+import champelecpckg.*;
 import gravitypckg.*;
 
 public class Main {

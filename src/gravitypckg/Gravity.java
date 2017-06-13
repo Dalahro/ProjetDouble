@@ -68,7 +68,7 @@ public class Gravity extends Simulation {
 
 	@Override
 	public void createParticule() {	
-		ajouterParticule(new Planete(250, 250 , 0, 0, 10000000));
+		//ajouterParticule(new Planete(250, 250 , 0, 0, 10000000));
 	}
 
 }
