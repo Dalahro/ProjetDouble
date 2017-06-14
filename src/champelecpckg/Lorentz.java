@@ -7,11 +7,11 @@ import basepckg.Forme;
 import basepckg.Modele;
 import basepckg.Particule;
 
-public class ModeleChampElec extends Modele {
+public class Lorentz extends Modele {
 	
 	public double[] E;
 
-	public ModeleChampElec(Forme forme, double[] E) {
+	public Lorentz(Forme forme, double[] E) {
 		super(forme);
 		this.E = E;
 	}

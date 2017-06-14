@@ -13,11 +13,11 @@ public class FactoryElectron extends Factory {
 		double q = 0;
 		switch((int) (Math.random() * 2)){
 		case 1:
-			q = + 1.67e-19;
+			q = + 1.6e-19;
 			e.setColor(Color.blue);
 			break;
 		case 0 :
-			q = - 1.67e-19;
+			q = - 1.6e-19;
 			e.setColor(Color.red);
 			break;
 		}

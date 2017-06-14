@@ -51,7 +51,7 @@ public class ChampElec extends Simulation {
 		Milieu m = new Milieu(poly);
 		m.setColor(new Color(0, 170, 0, 120));
 		double[] E = {0, 5e-12};
-		m.liste_modele.add(new ModeleChampElec(m.getForme(), E));
+		m.liste_modele.add(new Lorentz(m.getForme(), E));
 		liste_milieu.add(m);
 
 		ArrayList<double[]> points1 = new ArrayList<double[]>();

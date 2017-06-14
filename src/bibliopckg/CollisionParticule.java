@@ -69,7 +69,7 @@ public class CollisionParticule extends Modele {
 		double[] v1_p = Maths.addVect(v1n_p, v1t_p);
 		double[] v2_p = Maths.addVect(v2n_p, v2t_p);
 
-		// Collision inélastique mais marche pas trop
+		//Collision inélastique
 		double vx_cm = (m1 * v1[0] + m2 * v2[0]) / (m1 + m2);
 		double vy_cm = (m1 * v1[1] + m2 * v2[1]) / (m1 + m2);
 
@@ -99,10 +99,7 @@ public class CollisionParticule extends Modele {
 		double drdr = dx * dx + dy * dy;
 		double sigma = p1.getRadius() + p2.getRadius();
 		double d = (dvdr * dvdr) - dvdv * (drdr - sigma * sigma);
-		/*
-		 * if (drdr < sigma * sigma) { System.out.println(
-		 * "overlapping particles" + drdr); }
-		 */
+		
 		if (d < 0) {
 			return INFINITY;
 		}
