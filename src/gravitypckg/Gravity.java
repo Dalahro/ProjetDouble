@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import basepckg.Milieu;
 import basepckg.Simulation;
 import bibliopckg.Cercle;
+import bibliopckg.CollisionForme;
 import bibliopckg.CollisionParticule;
 import bibliopckg.GenerateurUniform;
 import bibliopckg.ModeleDisparition;
@@ -31,7 +32,7 @@ public class Gravity extends Simulation {
 		points0.add(d03);
 		Milieu m0 = new Milieu(new Polygone(points0));
 		m0.setColor(Color.gray);
-		m0.liste_modele.add(new CollisionParticule(0.8, m0.getForme()));
+		m0.liste_modele.add(new CollisionParticule(0.1, m0.getForme()));
 		m0.liste_modele.add(new ModeleDisparition(m0.getForme(), this));
 		liste_milieu.add(m0);
 	}
@@ -57,13 +58,14 @@ public class Gravity extends Simulation {
 
 		Milieu m1 = new Milieu(new Cercle(200, 250, 250));
 		m1.liste_modele.add(new Newton(m1.getForme()));
+		// m1.liste_modele.add(new CollisionForme(m1.getForme()));
 		m1.setColor(new Color(0, 0, 255, 50));
 		liste_milieu.add(m1);
 
 		FactoryPlanete facto = new FactoryPlanete();
 		liste_generateur.add(new GenerateurUniform(m1.getForme(), facto, 500, 20));		
 
-		m1.liste_modele.add(new ModeleDisparition(m1.getForme(), this));
+		//m1.liste_modele.add(new ModeleDisparition(m1.getForme(), this));
 	}
 
 	@Override
