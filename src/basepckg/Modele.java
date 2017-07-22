@@ -1,7 +1,7 @@
 package basepckg;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public abstract class Modele {
 
@@ -9,11 +9,11 @@ public abstract class Modele {
 	public Modele(Forme forme){
 		this.forme = forme;
 	}
-	public abstract void interaction(Particule p1, HashSet<Particule> liste_particule, ArrayList<Forme> liste_forme);
+	public abstract void interaction(Particule p1, Set<Particule> listeParticule, List<Forme> listeForme);
 	
-	public void interaction(Particule p1, Case[] casesAutour, ArrayList<Forme> liste_forme){
+	public void interaction(Particule p1, Case[] casesAutour, List<Forme> listeForme){
 		for(Case c : casesAutour){
-			interaction(p1, c.getListe_particule(), liste_forme);
+			interaction(p1, c.getListeParticule(), listeForme);
 		}
 	}
 

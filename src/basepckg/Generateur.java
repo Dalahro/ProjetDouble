@@ -4,33 +4,33 @@ public abstract class Generateur {
 
 	protected Forme forme;
 	protected Factory factory;
-	protected int T;
+	protected int period;
 	protected int t = 0;
-	protected int N;
+	protected int nombre;
 	protected int n = 0;
 
-	public Generateur(Forme forme, Factory factory, int T, int N) {
+	public Generateur(Forme forme, Factory factory, int period, int nombre) {
 		super();
 		this.forme = forme;
 		this.factory = factory;
-		this.T = T;
-		this.N = N;
+		this.period = period;
+		this.nombre = nombre;
 	}
 
-	public void action(int time_boucle, Simulation simulation) {
-		t += time_boucle;
-		if (T == 0 && n != N) {
-			for (int i = 0; i < N; i++) {
+	public void action(int timeBoucle, Simulation simulation) {
+		t += timeBoucle;
+		if (period == 0 && n != nombre) {
+			for (int i = 0; i < nombre; i++) {
 				generate(simulation);
 			}
-			n = N;
-		} else if (t > T && n < N) {
+			n = nombre;
+		} else if (t > period && n < nombre) {
 			generate(simulation);
-			t -= T;
+			t -= period;
 			n++;
 		}
-		if (n == N) {
-			simulation.liste_generateur.remove(this);
+		if (n == nombre) {
+			simulation.listeGenerateur.remove(this);
 		}
 	}
 

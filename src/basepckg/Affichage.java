@@ -2,32 +2,34 @@ package basepckg;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.swing.JPanel;
 
 public class Affichage extends JPanel {
 
-	private ArrayList<Milieu> liste_milieu;
-	private HashSet<Particule> liste_particule;
+	private List<Milieu> listeMilieu;
+	private Set<Particule> listeParticule;
 
-	public Affichage(ArrayList<Milieu> liste_milieu, HashSet<Particule> liste_particule) {
-		this.liste_milieu = liste_milieu;
-		this.liste_particule = liste_particule;
+	public Affichage(List<Milieu> listeMilieu, Set<Particule> listeParticule) {
+		this.listeMilieu = listeMilieu;
+		this.listeParticule = listeParticule;
 	}
 
+	@Override
 	public void paintComponent(Graphics g) {
 		g.setColor(Color.white);
 		g.fillRect(0, 0, Simulation.WIDTH, Simulation.HEIGHT);
-		for (Milieu m : liste_milieu) {
+		for (Milieu m : listeMilieu) {
 			g.setColor(m.getColor());
 			m.draw(g);
 		}
 
 		@SuppressWarnings("unchecked")
-		HashSet<Particule> copy_part = (HashSet<Particule>) liste_particule.clone();
-		for (Particule p : copy_part) {
+		Set<Particule> copyPart = (Set<Particule>) ((HashSet<Particule>) listeParticule).clone();
+		for (Particule p : copyPart) {
 			g.setColor(p.getColor());
 			int r = 1;
 			if (p.getRadius() > 1) {

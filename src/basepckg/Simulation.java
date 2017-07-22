@@ -2,29 +2,38 @@ package basepckg;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 
 public abstract class Simulation extends JFrame {
 
 	protected Affichage aff;
-	protected HashSet<Particule> liste_particule;
-	protected ArrayList<Milieu> liste_milieu;
-	protected ArrayList<Generateur> liste_generateur;
-	protected ArrayList<Forme> liste_forme;
-	public static double h = 0.01;
-	public static double PAS = 0.1;
-	public static int HEIGHT = 500;
-	public static int WIDTH = 500;
-	protected Case[][] grille_particule = new Case[(int) Math.ceil(1 / PAS)][(int) Math.ceil(1 / PAS)];
+	protected Set<Particule> listeParticule;
+	protected List<Milieu> listeMilieu;
+	protected List<Generateur> listeGenerateur;
+	protected List<Forme> listeForme;
+	public static final double H = 0.01;
+	public static final double PAS = 0.1;
+	public static final int HEIGHT = 500;
+	public static final int WIDTH = 500;
+	protected Case[][] grilleParticule = new Case[(int) Math.ceil(1 / PAS)][(int) Math.ceil(1 / PAS)];
+	
+	private static final Logger LOGGER;
+	
+	static {
+		LOGGER = Logger.getLogger(Simulation.class.getName());
+	}
 
 	public Simulation() {
 		// Initialisation
-		liste_particule = new HashSet<Particule>();
-		liste_milieu = new ArrayList<Milieu>();
-		liste_forme = new ArrayList<Forme>();
-		liste_generateur = new ArrayList<Generateur>();
-		aff = new Affichage(liste_milieu, liste_particule);
+		listeParticule = new HashSet<>();
+		listeMilieu = new ArrayList<>();
+		listeForme = new ArrayList<>();
+		listeGenerateur = new ArrayList<>();
+		aff = new Affichage(listeMilieu, listeParticule);
 		this.setSize(WIDTH + 6, HEIGHT + 28);
 		this.setTitle("Simulation");
 		this.setResizable(false);
@@ -34,9 +43,9 @@ public abstract class Simulation extends JFrame {
 		setVisible(true);
 
 		// Initialisation grille
-		for (int i = 0; i < grille_particule.length; i++) {
-			for (int j = 0; j < grille_particule[0].length; j++) {
-				grille_particule[i][j] = new Case();
+		for (int i = 0; i < grilleParticule.length; i++) {
+			for (int j = 0; j < grilleParticule[0].length; j++) {
+				grilleParticule[i][j] = new Case();
 			}
 		}
 
@@ -50,8 +59,8 @@ public abstract class Simulation extends JFrame {
 		createMilieux();
 
 		// Initialisation des formes
-		for (Milieu m : liste_milieu) {
-			liste_forme.add(m.getForme());
+		for (Milieu m : listeMilieu) {
+			listeForme.add(m.getForme());
 		}
 	}
 
@@ -62,55 +71,55 @@ public abstract class Simulation extends JFrame {
 	public abstract void createParticule();
 
 	public void ajouterParticule(Particule p) {
-		grille_particule[p.getCasex()][p.getCasey()].getListe_particule().add(p);
-		liste_particule.add(p);
+		grilleParticule[p.getCasex()][p.getCasey()].getListeParticule().add(p);
+		listeParticule.add(p);
 	}
 
 	public void retirerParticule(Particule p) {
-		grille_particule[p.getCasex()][p.getCasey()].getListe_particule().remove(p);
-		liste_particule.remove(p);
+		grilleParticule[p.getCasex()][p.getCasey()].getListeParticule().remove(p);
+		listeParticule.remove(p);
 	}
 
 	public Case[] getListCaseIn(Particule p) {
-		Case[] cases_voisines = new Case[9];
+		Case[] casesVoisines = new Case[9];
 
-		for (int i = 0; i < cases_voisines.length; i++) {
-			cases_voisines[i] = new Case();
+		for (int i = 0; i < casesVoisines.length; i++) {
+			casesVoisines[i] = new Case();
 		}
 
 		if (p.getCasex() > 0) {
 			if (p.getCasey() > 0) {
-				cases_voisines[0].setListe(grille_particule[p.getCasex() - 1][p.getCasey() - 1].getListe_particule());
+				casesVoisines[0].setListe(grilleParticule[p.getCasex() - 1][p.getCasey() - 1].getListeParticule());
 			}
-			cases_voisines[1].setListe(grille_particule[p.getCasex() - 1][p.getCasey()].getListe_particule());
+			casesVoisines[1].setListe(grilleParticule[p.getCasex() - 1][p.getCasey()].getListeParticule());
 			if (p.getCasey() < (int) (1 / PAS) - 1) {
-				cases_voisines[2].setListe(grille_particule[p.getCasex() - 1][p.getCasey() + 1].getListe_particule());
+				casesVoisines[2].setListe(grilleParticule[p.getCasex() - 1][p.getCasey() + 1].getListeParticule());
 			}
 		}
 
 		if (p.getCasey() > 0) {
-			cases_voisines[3].setListe(grille_particule[p.getCasex()][p.getCasey() - 1].getListe_particule());
+			casesVoisines[3].setListe(grilleParticule[p.getCasex()][p.getCasey() - 1].getListeParticule());
 		}
-		cases_voisines[4].setListe(grille_particule[p.getCasex()][p.getCasey()].getListe_particule());
+		casesVoisines[4].setListe(grilleParticule[p.getCasex()][p.getCasey()].getListeParticule());
 		if (p.getCasey() < (int) (1 / PAS) - 1) {
-			cases_voisines[5].setListe(grille_particule[p.getCasex()][p.getCasey() + 1].getListe_particule());
+			casesVoisines[5].setListe(grilleParticule[p.getCasex()][p.getCasey() + 1].getListeParticule());
 		}
 
 		if (p.getCasex() < (int) (1 / PAS) - 1) {
 			if (p.getCasey() > 0) {
-				cases_voisines[6].setListe(grille_particule[p.getCasex() + 1][p.getCasey() - 1].getListe_particule());
+				casesVoisines[6].setListe(grilleParticule[p.getCasex() + 1][p.getCasey() - 1].getListeParticule());
 			}
-			cases_voisines[7].setListe(grille_particule[p.getCasex() + 1][p.getCasey()].getListe_particule());
+			casesVoisines[7].setListe(grilleParticule[p.getCasex() + 1][p.getCasey()].getListeParticule());
 			if (p.getCasey() < (int) (1 / PAS) - 1) {
-				cases_voisines[8].setListe(grille_particule[p.getCasex() + 1][p.getCasey() + 1].getListe_particule());
+				casesVoisines[8].setListe(grilleParticule[p.getCasex() + 1][p.getCasey() + 1].getListeParticule());
 			}
 		}
 
-		return cases_voisines;
+		return casesVoisines;
 	}
 
 	public void updateCaseIn() {
-		for (Particule p : liste_particule) {
+		for (Particule p : listeParticule) {
 			if (p.getPos()[0] > 0 && p.getPos()[0] < WIDTH && p.getPos()[1] > 0 && p.getPos()[1] < HEIGHT) {
 				double[] pos = p.getPos();
 				int casex = (int) (pos[0] / (WIDTH * PAS));
@@ -118,12 +127,12 @@ public abstract class Simulation extends JFrame {
 
 				if (casex != p.getCasex() && casey != p.getCasey()) {
 
-					grille_particule[p.getCasex()][p.getCasey()].getListe_particule().remove(p);
+					grilleParticule[p.getCasex()][p.getCasey()].getListeParticule().remove(p);
 
 					p.setCasex(casex);
 					p.setCasey(casey);
 
-					grille_particule[p.getCasex()][p.getCasey()].getListe_particule().add(p);
+					grilleParticule[p.getCasex()][p.getCasey()].getListeParticule().add(p);
 				}
 			}
 		}
@@ -135,27 +144,28 @@ public abstract class Simulation extends JFrame {
 		while (true) {
 			aff.repaint();
 			long t = System.currentTimeMillis();
-			// double em=0;
+			// double em=0
 
 			@SuppressWarnings("unchecked")
-			HashSet<Particule> copy_part = (HashSet<Particule>) liste_particule.clone();
-			for (Particule p1 : copy_part) {
+			Set<Particule> copyPart = (Set<Particule>) ((HashSet<Particule>) listeParticule).clone();
+			for (Particule p1 : copyPart) {
 				actualiser(p1);
-				// em += 0.5 * p1.getM() * Math.pow(Maths.norme(p1.getV()), 2);
+				// em += 0.5 * p1.getM() * Math.pow(Maths.norme(p1.getV()), 2)
 			}
 			@SuppressWarnings("unchecked")
-			ArrayList<Generateur> copy_gen = (ArrayList<Generateur>) liste_generateur.clone();
-			for (Generateur gen : copy_gen) {
+			List<Generateur> copyGen = (List<Generateur>) ((ArrayList<Generateur>) listeGenerateur).clone();
+			for (Generateur gen : copyGen) {
 				gen.action(1, this);
 			}
 
 			updateCaseIn();
 			System.out.println(System.currentTimeMillis() - t);
-			// System.out.println(em);
+			// System.out.println(em)
 			try {
 				Thread.sleep(1);
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				LOGGER.severe(e.getMessage());
+				Thread.currentThread().interrupt();
 			}
 		}
 	}
@@ -169,33 +179,33 @@ public abstract class Simulation extends JFrame {
 		// est dans la fenetre
 		if (p1.getPos()[0] > 0 && p1.getPos()[0] < WIDTH && p1.getPos()[1] > 0 && p1.getPos()[1] < HEIGHT) {
 			Case[] casesAutour = getListCaseIn(p1);
-			for (Milieu m : liste_milieu) {
+			for (Milieu m : listeMilieu) {
 				if (m.inMilieu(p1.getPos())) {
-					for (Modele mod : m.getListe_modele()) {
+					for (Modele mod : m.getListeModele()) {
 						mod.actionP(p1);
-						mod.interaction(p1, casesAutour, liste_forme);
+						mod.interaction(p1, casesAutour, listeForme);
 					}
 				}
 			}
 		}
 		// Mise à jour vitesse et position
-		p1.update_v(h);
-		p1.update_pos(h);
+		p1.updateV(H);
+		p1.updatePos(H);
 	}
 
-	public HashSet<Particule> getListe_particule() {
-		return liste_particule;
+	public Set<Particule> getListeParticule() {
+		return listeParticule;
 	}
 
-	public void setListe_particule(HashSet<Particule> liste_particule) {
-		this.liste_particule = liste_particule;
+	public void setListeParticule(Set<Particule> listeParticule) {
+		this.listeParticule = listeParticule;
 	}
 
-	public ArrayList<Milieu> getListe_milieu() {
-		return liste_milieu;
+	public List<Milieu> getListeMilieu() {
+		return listeMilieu;
 	}
 
-	public void setListe_milieu(ArrayList<Milieu> liste_forme) {
-		this.liste_milieu = liste_forme;
+	public void setListeMilieu(List<Milieu> listeForme) {
+		this.listeMilieu = listeForme;
 	}
 }

@@ -2,6 +2,7 @@ package babypckg;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.List;
 
 import basepckg.Milieu;
 import basepckg.Simulation;
@@ -12,7 +13,7 @@ public class But {
 	Milieu m = null;
 
 	public But(int x, int y, Simulation simulation) {
-		ArrayList<double[]> points0 = new ArrayList<double[]>();
+		List<double[]> points0 = new ArrayList<>();
 		double[] d0 = { x, y };
 		double[] d01 = { x + 70, y };
 		double[] d02 = { x + 70, y + 10 };
@@ -24,7 +25,7 @@ public class But {
 		Polygone poly0 = new Polygone(points0);
 		m = new Milieu(poly0);
 		m.setColor(Color.black);
-		m.liste_modele.add(new ModeleDisparition(m.getForme(), simulation));
+		m.getListeModele().add(new ModeleDisparition(m.getForme(), simulation));
 
 	}
 }

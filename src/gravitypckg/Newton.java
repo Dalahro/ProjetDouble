@@ -1,7 +1,7 @@
 package gravitypckg;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import basepckg.Forme;
 import basepckg.Modele;
@@ -13,26 +13,26 @@ public class Newton extends Modele {
 		super(forme);
 	}
 
-	double G = 6.67e-4;
+	double g = 6.67e-4;
 
-	public void interaction(Particule p1, HashSet<Particule> liste_particule, ArrayList<Forme> liste_forme) {
-		double Fx = 0;
-		double Fy = 0;
-		for (Particule p2 : liste_particule) {
+	public void interaction(Particule p1, Set<Particule> listeParticule, List<Forme> listeForme) {
+		double fX = 0;
+		double fY = 0;
+		for (Particule p2 : listeParticule) {
 			if (p1 != p2 && forme.inForme(p2.getPos())) {
 				double dist = p1.distance(p2);
-				double cos = p1.cos_alpha(p2);
-				double sin = p1.sin_alpha(p2);
+				double cos = p1.cosAlpha(p2);
+				double sin = p1.sinAlpha(p2);
 
-				Fx += G * p2.getAttributs().get("masse") * cos / dist / dist;
-				Fy += G * p2.getAttributs().get("masse") * sin / dist / dist;
+				fX += g * p2.getAttributs().get("masse") * cos / dist / dist;
+				fY += g * p2.getAttributs().get("masse") * sin / dist / dist;
 			}
 		}
-		p1.setA(p1.getA()[0] + Fx, p1.getA()[1] + Fy);
+		p1.setA(p1.getA()[0] + fX, p1.getA()[1] + fY);
 	}
 
 	@Override
 	public void actionP(Particule p) {
-
+		// no action here
 	}
 }

@@ -8,10 +8,11 @@ import basepckg.Simulation;
 
 public class GenerateurTir extends Generateur {
 
-	int posx, posy;
+	private int posx;
+	private int posy;
 
-	public GenerateurTir(Forme forme, Factory factory, int T, int N, int posx, int posy) {
-		super(forme, factory, T, N);
+	public GenerateurTir(Forme forme, Factory factory, int period, int nombre, int posx, int posy) {
+		super(forme, factory, period, nombre);
 		this.posx = posx;
 		this.posy = posy;
 	}

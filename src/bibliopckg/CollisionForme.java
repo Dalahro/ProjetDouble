@@ -1,7 +1,7 @@
 package bibliopckg;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import basepckg.Forme;
 import basepckg.Maths;
@@ -16,30 +16,30 @@ public class CollisionForme extends Modele {
 		super(forme);
 	}
 
-	public void interaction(Particule p1, HashSet<Particule> liste_particule, ArrayList<Forme> liste_forme) {
+	public void interaction(Particule p1, Set<Particule> listeParticule, List<Forme> listeForme) {
 		double[] vit = p1.getV();
-		for (Forme f : liste_forme) {
+		for (Forme f : listeForme) {
 			Pair<Double, Object> pair = f.hitBorder(p1); // si defini collision sur la forme
-			double time_min = pair.getFirst();
-			double[] v_min = (double[]) pair.getSecond();
-			if (time_min < Simulation.h) {
-				p1.update_pos(time_min);
-				double[] vect_norm = Maths.normalize(Maths.vectNorm(v_min));
-				double[] vect_tan = Maths.vectTan(vect_norm);
+			double timeMin = pair.getFirst();
+			double[] vMin = (double[]) pair.getSecond();
+			if (timeMin < Simulation.H) {
+				p1.updatePos(timeMin);
+				double[] vectNorm = Maths.normalize(Maths.vectNorm(vMin));
+				double[] vectTan = Maths.vectTan(vectNorm);
 
-				double vit_n = -Maths.prodScalaire(vect_norm, vit);
-				double vit_t = Maths.prodScalaire(vect_tan, vit);
+				double vitN = -Maths.prodScalaire(vectNorm, vit);
+				double vitT = Maths.prodScalaire(vectTan, vit);
 
-				double[] vitn_p = Maths.multScalaire(vect_norm, vit_n);
-				double[] vitt_p = Maths.multScalaire(vect_tan, vit_t);
+				double[] vitNP = Maths.multScalaire(vectNorm, vitN);
+				double[] vitTP = Maths.multScalaire(vectTan, vitT);
 
-				p1.setV(Maths.addVect(vitn_p, vitt_p));
-				p1.update_pos(Simulation.h - time_min);
+				p1.setV(Maths.addVect(vitNP, vitTP));
+				p1.updatePos(Simulation.H - timeMin);
 			}
 		}
 	}
 
 	public void actionP(Particule p) {
-
+		//no action here
 	}
 }

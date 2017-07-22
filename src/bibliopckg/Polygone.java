@@ -2,6 +2,7 @@ package bibliopckg;
 
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.List;
 
 import basepckg.Forme;
 import basepckg.Maths;
@@ -10,9 +11,9 @@ import basepckg.Particule;
 
 public class Polygone extends Forme {
 
-	private ArrayList<double[]> points = new ArrayList<double[]>();
+	private List<double[]> points = new ArrayList<>();
 
-	public Polygone(ArrayList<double[]> points) {
+	public Polygone(List<double[]> points) {
 		super();
 		this.points = points;
 	}
@@ -27,36 +28,36 @@ public class Polygone extends Forme {
 				dip = points.get(0);
 			}
 			double[] v = Maths.vectTan(Maths.subVect(d, dip));
-			double[] v_p = Maths.subVect(pos, Maths.multScalaire(Maths.addVect(d, dip), 0.5));
-			if (Maths.prodScalaire(v, v_p) > 0) {
+			double[] vP = Maths.subVect(pos, Maths.multScalaire(Maths.addVect(d, dip), 0.5));
+			if (Maths.prodScalaire(v, vP) > 0) {
 				return false;
 			}
 		}
 		return true;
 	}
 
-	public ArrayList<double[]> getPoints() {
+	public List<double[]> getPoints() {
 		return points;
 	}
 
-	public void setPoints(ArrayList<double[]> points) {
+	public void setPoints(List<double[]> points) {
 		this.points = points;
 	}
 
 	public int[] getXcoord() {
-		int[] X = new int[points.size()];
+		int[] x = new int[points.size()];
 		for (int i = 0; i < points.size(); i++) {
-			X[i] = (int) points.get(i)[0];
+			x[i] = (int) points.get(i)[0];
 		}
-		return X;
+		return x;
 	}
 
 	public int[] getYcoord() {
-		int[] Y = new int[points.size()];
+		int[] y = new int[points.size()];
 		for (int i = 0; i < points.size(); i++) {
-			Y[i] = (int) points.get(i)[1];
+			y[i] = (int) points.get(i)[1];
 		}
-		return Y;
+		return y;
 	}
 
 	@Override
@@ -65,13 +66,13 @@ public class Polygone extends Forme {
 	}
 
 	public Pair<Double, Object> hitBorder(Particule p) {
-		double time_min = Double.POSITIVE_INFINITY;
+		double timeMin = Double.POSITIVE_INFINITY;
 		double[] pos = p.getPos();
 		double[] vit = p.getV();
 		double[] dip;
 		double[] d;
 		double time = 0;
-		double[] v_min = null;
+		double[] vMin = null;
 
 		for (int i = 0; i < points.size(); i++) {
 			d = points.get(i);
@@ -91,13 +92,13 @@ public class Polygone extends Forme {
 			if ((Maths.colineaire(vit, v) > 0 && this.inForme(p.getPos()))
 					|| (Maths.colineaire(vit, v) < 0 && !this.inForme(p.getPos()))) {
 
-				double[] p_inter = Maths.intersectDroite(d1, d2);
+				double[] pInter = Maths.intersectDroite(d1, d2);
 
-				x = p_inter[0];
-				y = p_inter[1];
+				x = pInter[0];
+				y = pInter[1];
 
 				double r = ((d[0] - x) * (dip[0] - x) + (d[1] - y) * (dip[1] - y)) / Maths.prodScalaire(v, v);
-				
+
 				if (r <= 1 && r >= -1) {
 					time = (Math.sqrt((pos[0] - x) * (pos[0] - x) + (pos[1] - y) * (pos[1] - y)) - p.getRadius())
 							/ Maths.norme(vit);
@@ -107,31 +108,32 @@ public class Polygone extends Forme {
 			} else {
 				time = Double.POSITIVE_INFINITY;
 			}
-			if (time < time_min) {
-				time_min = time;
-				v_min = v;
+			if (time < timeMin) {
+				timeMin = time;
+				vMin = v;
 			}
 		}
-		return new Pair<Double, Object>(time_min, v_min);		
+		return new Pair<>(timeMin, vMin);
 	}
 
 	@Override
 	public double[] getEnveloppe() {
-		double x_min = Double.POSITIVE_INFINITY, x_max = Double.NEGATIVE_INFINITY;
-		double y_min = Double.POSITIVE_INFINITY, y_max = Double.NEGATIVE_INFINITY;
+		double xMin = Double.POSITIVE_INFINITY;
+		double xMax = Double.NEGATIVE_INFINITY;
+		double yMin = Double.POSITIVE_INFINITY;
+		double yMax = Double.NEGATIVE_INFINITY;
 		for (double[] d : points) {
-			if (d[0] > x_max) {
-				x_max = d[0];
-			} else if (d[0] < x_min) {
-				x_min = d[0];
+			if (d[0] > xMax) {
+				xMax = d[0];
+			} else if (d[0] < xMin) {
+				xMin = d[0];
 			}
-			if (d[1] < y_min) {
-				y_min = d[1];
-			} else if (d[1] > y_max) {
-				y_max = d[1];
+			if (d[1] < yMin) {
+				yMin = d[1];
+			} else if (d[1] > yMax) {
+				yMax = d[1];
 			}
 		}
-		double[] enveloppe = { x_min, y_min, x_max - x_min, y_max - y_min };
-		return enveloppe;
+		return new double[] { xMin, yMin, xMax - xMin, yMax - yMin };
 	}
 }

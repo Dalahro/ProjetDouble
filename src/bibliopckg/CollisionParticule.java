@@ -1,7 +1,7 @@
 package bibliopckg;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import basepckg.Forme;
 import basepckg.Maths;
@@ -11,31 +11,30 @@ import basepckg.Simulation;
 
 public class CollisionParticule extends Modele {
 
-	private double R = 1;
+	private double r = 1;
 	private static final double INFINITY = Double.POSITIVE_INFINITY;
 
-	public CollisionParticule(double R, Forme forme){
+	public CollisionParticule(double r, Forme forme){
 		super(forme);
-		this.R = R;
+		this.r = r;
 	}
-	public void interaction(Particule p1, HashSet<Particule> liste_particule, ArrayList<Forme> liste_forme) {
-		Particule p_plusproche = null;
-		double t_min = INFINITY;
+	public void interaction(Particule p1, Set<Particule> listeParticule, List<Forme> listeForme) {
+		Particule partPlusProche = null;
+		double tMin = INFINITY;
 		double t = 0;
-		for (Particule p2 : liste_particule) {
+		for (Particule p2 : listeParticule) {
 			if (p2 != p1 && forme.inForme(p2.getPos())) {
 				t = timeToHit(p1, p2);
-				// System.out.println(t);
-				if (t < t_min) {
-					t_min = t;
-					p_plusproche = p2;
+				if (t < tMin) {
+					tMin = t;
+					partPlusProche = p2;
 				}
 			}
 		}
-		if (t_min < Simulation.h) {
-			p1.update_pos(t_min);
-			hit(p1, p_plusproche);
-			p1.update_pos(Simulation.h - t_min);
+		if (tMin < Simulation.H) {
+			p1.updatePos(tMin);
+			hit(p1, partPlusProche);
+			p1.updatePos(Simulation.H - tMin);
 		}
 	}
 
@@ -47,43 +46,43 @@ public class CollisionParticule extends Modele {
 		double m1 = p1.getAttributs().get("masse");
 		double m2 = p2.getAttributs().get("masse");
 
-		double[] vect_norm = Maths.normalize(Maths.subVect(pos2, pos1));
-		double[] vect_tan = Maths.vectTan(vect_norm);
+		double[] vectNorm = Maths.normalize(Maths.subVect(pos2, pos1));
+		double[] vectTan = Maths.vectTan(vectNorm);
 
-		double v1n = Maths.prodScalaire(vect_norm, v1);
-		double v1t = Maths.prodScalaire(vect_tan, v1);
-		double v2n = Maths.prodScalaire(vect_norm, v2);
-		double v2t = Maths.prodScalaire(vect_tan, v2);
+		double v1n = Maths.prodScalaire(vectNorm, v1);
+		double v1t = Maths.prodScalaire(vectTan, v1);
+		double v2n = Maths.prodScalaire(vectNorm, v2);
+		double v2t = Maths.prodScalaire(vectTan, v2);
 
-		double v1t_ps = v1t;
-		double v2t_ps = v2t;
+		double v1tPs = v1t;
+		double v2tPs = v2t;
 
-		double v1n_ps = (v1n * (m1 - m2) + 2 * m2 * v2n) / (m1 + m2);
-		double v2n_ps = (v2n * (m2 - m1) + 2 * m1 * v1n) / (m1 + m2);
+		double v1nPs = (v1n * (m1 - m2) + 2 * m2 * v2n) / (m1 + m2);
+		double v2nPs = (v2n * (m2 - m1) + 2 * m1 * v1n) / (m1 + m2);
 
-		double[] v1n_p = Maths.multScalaire(vect_norm, v1n_ps);
-		double[] v1t_p = Maths.multScalaire(vect_tan, v1t_ps);
-		double[] v2n_p = Maths.multScalaire(vect_norm, v2n_ps);
-		double[] v2t_p = Maths.multScalaire(vect_tan, v2t_ps);
+		double[] v1nP = Maths.multScalaire(vectNorm, v1nPs);
+		double[] v1tP = Maths.multScalaire(vectTan, v1tPs);
+		double[] v2nP = Maths.multScalaire(vectNorm, v2nPs);
+		double[] v2tP = Maths.multScalaire(vectTan, v2tPs);
 
-		double[] v1_p = Maths.addVect(v1n_p, v1t_p);
-		double[] v2_p = Maths.addVect(v2n_p, v2t_p);
+		double[] v1P = Maths.addVect(v1nP, v1tP);
+		double[] v2P = Maths.addVect(v2nP, v2tP);
 
 		//Collision inélastique
-		double vx_cm = (m1 * v1[0] + m2 * v2[0]) / (m1 + m2);
-		double vy_cm = (m1 * v1[1] + m2 * v2[1]) / (m1 + m2);
+		double vxCm = (m1 * v1[0] + m2 * v2[0]) / (m1 + m2);
+		double vyCm = (m1 * v1[1] + m2 * v2[1]) / (m1 + m2);
 
-		v1_p[0] = (v1_p[0] - vx_cm) * R + vx_cm;
-		v1_p[1] = (v1_p[1] - vy_cm) * R + vy_cm;
-		v2_p[0] = (v2_p[0] - vx_cm) * R + vx_cm;
-		v2_p[1] = (v2_p[1] - vy_cm) * R + vy_cm;
+		v1P[0] = (v1P[0] - vxCm) * r + vxCm;
+		v1P[1] = (v1P[1] - vyCm) * r + vyCm;
+		v2P[0] = (v2P[0] - vxCm) * r + vxCm;
+		v2P[1] = (v2P[1] - vyCm) * r + vyCm;
 
-		p1.setV(v1_p);
-		p2.setV(v2_p);
+		p1.setV(v1P);
+		p2.setV(v2P);
 	}
 
 	public void actionP(Particule p) {
-
+		//no action here
 	}
 
 	public double timeToHit(Particule p1, Particule p2) {

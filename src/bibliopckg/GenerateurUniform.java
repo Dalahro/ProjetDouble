@@ -8,8 +8,8 @@ import basepckg.Simulation;
 
 public class GenerateurUniform extends Generateur {
 
-	public GenerateurUniform(Forme forme, Factory factory, int T, int N) {
-		super(forme, factory, T, N);
+	public GenerateurUniform(Forme forme, Factory factory, int period, int nombre) {
+		super(forme, factory, period, nombre);
 	}
 
 	public void generate(Simulation simulation) {

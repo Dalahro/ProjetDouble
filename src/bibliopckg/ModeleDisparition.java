@@ -1,7 +1,7 @@
 package bibliopckg;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import basepckg.Forme;
 import basepckg.Modele;
@@ -18,9 +18,8 @@ public class ModeleDisparition extends Modele{
 	}
 
 	@Override
-	public void interaction(Particule p1, HashSet<Particule> liste_particule, ArrayList<Forme> liste_forme) {
-		// TODO Auto-generated method stub
-		
+	public void interaction(Particule p1, Set<Particule> listeParticule, List<Forme> listeForme) {
+		//no interaction here
 	}
 
 	@Override
@@ -28,15 +27,15 @@ public class ModeleDisparition extends Modele{
 		
 		double[] pos = p.getPos();
 		
-		pos[0] += Simulation.h * p.getV()[0];
-		pos[1] += Simulation.h * p.getV()[1];
+		pos[0] += Simulation.H * p.getV()[0];
+		pos[1] += Simulation.H * p.getV()[1];
 		
 		
 		if(!forme.inForme(pos)){
 			simu.retirerParticule(p);
 		}
-		pos[0] -= Simulation.h * p.getV()[0];
-		pos[1] -= Simulation.h * p.getV()[1];
+		pos[0] -= Simulation.H * p.getV()[0];
+		pos[1] -= Simulation.H * p.getV()[1];
 	}
 
 }

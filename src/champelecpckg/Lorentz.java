@@ -1,31 +1,31 @@
 package champelecpckg;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import basepckg.Forme;
 import basepckg.Modele;
 import basepckg.Particule;
 
 public class Lorentz extends Modele {
-	
-	public double[] E;
 
-	public Lorentz(Forme forme, double[] E) {
+	private double[] e;
+
+	public Lorentz(Forme forme, double[] e) {
 		super(forme);
-		this.E = E;
+		this.e = e;
 	}
 
-	public void interaction(Particule p1, HashSet<Particule> liste_particule, ArrayList<Forme> liste_forme) {
-		
+	public void interaction(Particule p1, Set<Particule> listeParticule, List<Forme> listeForme) {
+		// not interaction here
 	}
 
 	@Override
 	public void actionP(Particule p) {
-		Electron e = (Electron) p;
-		double[] a = e.getA();
-		a[0] = e.getAttributs().get("charge") * E[0] / e.getAttributs().get("masse");
-		a[1] = e.getAttributs().get("charge") * E[1] / e.getAttributs().get("masse");
+		Electron elec = (Electron) p;
+		double[] a = elec.getA();
+		a[0] = elec.getAttributs().get("charge") * e[0] / elec.getAttributs().get("masse");
+		a[1] = elec.getAttributs().get("charge") * e[1] / elec.getAttributs().get("masse");
 		p.setA(a);
 	}
 }

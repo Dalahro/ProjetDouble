@@ -3,11 +3,12 @@ package basepckg;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Milieu {
 
 	Forme forme = null;
-	public ArrayList<Modele> liste_modele = new ArrayList<Modele>();
+	private List<Modele> listeModele = new ArrayList<>();
 
 	public Milieu(Forme forme) {
 		this.forme = forme;
@@ -28,7 +29,7 @@ public class Milieu {
 	public void draw(Graphics g) {
 		forme.draw(g);
 	}
-	
+
 	public Color getColor() {
 		return forme.getColor();
 	}
@@ -37,12 +38,12 @@ public class Milieu {
 		forme.setColor(color);
 	}
 
-	public ArrayList<Modele> getListe_modele() {
-		return liste_modele;
+	public List<Modele> getListeModele() {
+		return listeModele;
 	}
 
-	public void setListe_modele(ArrayList<Modele> liste_modele) {
-		this.liste_modele = liste_modele;
+	public void setListeModele(List<Modele> listeModele) {
+		this.listeModele = listeModele;
 	}
 
 }

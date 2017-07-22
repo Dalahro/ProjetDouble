@@ -1,17 +1,18 @@
 package basepckg;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class Case{
 
-	private HashSet<Particule> liste_particule = new HashSet<Particule>();
+	private Set<Particule> listeParticule = new HashSet<>();
 
-	public HashSet<Particule> getListe_particule() {
-		return liste_particule;
+	public Set<Particule> getListeParticule() {
+		return listeParticule;
 	}
 
-	public void setListe(HashSet<Particule> liste_particule) {
-		this.liste_particule = liste_particule;
+	public void setListe(Set<Particule> listeParticule) {
+		this.listeParticule = listeParticule;
 	}
 
 }

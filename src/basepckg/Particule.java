@@ -9,23 +9,24 @@ public class Particule {
 	private double[] pos = new double[2];
 	private double[] v = new double[2];
 	private double[] a = new double[2];
-	private int casex, casey;
+	private int casex;
+	private int casey;
 	private double radius = 2;
 	private Color color = Color.orange;
 	
-	protected Map<String, Double> attributs = new HashMap<String, Double>();
+	protected Map<String, Double> attributs = new HashMap<>();
 
 	public Particule(double posx, double posy, double vx, double vy) {
 		this.setPos(posx, posy);
 		this.setV(vx, vy);
 	}
 
-	public void update_pos(double h) {
+	public void updatePos(double h) {
 		pos[0] += h * v[0];
 		pos[1] += h * v[1];
 	}
 
-	public void update_v(double h) {
+	public void updateV(double h) {
 		v[0] += h * a[0];
 		v[1] += h * a[1];
 	}
@@ -34,12 +35,12 @@ public class Particule {
 		return Maths.norme(Maths.subVect(this.getPos(), p2.getPos()));
 	}
 
-	public double cos_alpha(Particule p2) {
+	public double cosAlpha(Particule p2) {
 		double dist = this.distance(p2);
 		return (p2.getPos()[0] - this.getPos()[0]) / dist;
 	}
 
-	public double sin_alpha(Particule p2) {
+	public double sinAlpha(Particule p2) {
 		double dist = this.distance(p2);
 		return (p2.getPos()[1] - this.getPos()[1]) / dist;
 	}

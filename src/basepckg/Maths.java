@@ -1,6 +1,10 @@
 package basepckg;
 
 public class Maths {
+	private Maths() {
+		//to hide construct
+	}
+	
 	public static double prodScalaire(double[] v1, double[] v2) {
 		return v1[0] * v2[0] + v1[1] * v2[1];
 	}
@@ -71,9 +75,7 @@ public class Maths {
 		double b = -vect[0];
 		double c = -a * point[0] - b * point[1];
 
-		double[] coef = { a, b, c };
-
-		return coef;
+		return new double[] { a, b, c };
 	}
 
 	public static double[] intersectDroite(double[] d1, double[] d2) {
@@ -88,14 +90,13 @@ public class Maths {
 		} else if (d1[1] == 0) {
 			x = -d1[2] / d1[0];
 			y = -(d2[0] * x + d2[2]) / d2[1];
-		} else if (d2[0] == 0) {
+		} else if (d2[1] == 0) {
 			x = -d2[2] / d2[0];
 			y = -(d1[0] * x + d1[2]) / d1[1];
 		} else {
 			x = (d2[2] / d2[1] - d1[2] / d1[1]) / (d1[0] / d1[1] - d2[0] / d2[1]);
 			y = -(d1[0] * x + d1[2]) / d1[1];
 		}
-		double[] p = {x, y};
-		return p;
+		return new double[] { x, y };
 	}
 }
